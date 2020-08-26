@@ -6,17 +6,17 @@
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="description" property="description"/>
-        <result column="is_enabled" property="is_enabled"/>
-        <result column="company_id" property="company_id"/>
-        <result column="create_user" property="create_user"/>
-        <result column="create_date" property="create_date"/>
-        <result column="modify_user" property="modify_user"/>
-        <result column="modify_date" property="modify_date"/>
+        <result column="is_enabled" property="isEnabled"/>
+        <result column="company_id" property="companyId"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_date" property="createDate"/>
+        <result column="modify_user" property="modifyUser"/>
+        <result column="modify_date" property="modifyDate"/>
     </resultMap>
 
     <select id="getStoreById" parameterType="java.lang.Integer" resultMap="storeResult">
         select  id,name,description,is_enabled,company_id,create_user,create_date,modify_user,modify_date
-        from store
+        from warehouse.store
         where id = #{id}
     </select>
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cf.colorm.dao.TdFileDao">
+
+
+    <insert id="add" parameterType="com.cf.colorm.entity.TdFile">
+        insert into warehouse.td_file (color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date)
+    values (#{colorNo},#{colorName},#{type},#{description},#{storeId},#{status},1,1,getdate(),1,getdate())
+</insert>
+
+</mapper>
