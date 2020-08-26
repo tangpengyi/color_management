@@ -1,4 +1,4 @@
-package com.cf.color_management;
+package com.cf.colorm;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

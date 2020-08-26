@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cf.colorm.dao.StoreDao">
+
+    <resultMap id="storeResult" type="com.cf.colorm.entity.Store">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="is_enabled" property="is_enabled"/>
+        <result column="company_id" property="company_id"/>
+        <result column="create_user" property="create_user"/>
+        <result column="create_date" property="create_date"/>
+        <result column="modify_user" property="modify_user"/>
+        <result column="modify_date" property="modify_date"/>
+    </resultMap>
+
+    <select id="getStoreById" parameterType="java.lang.Integer" resultMap="storeResult">
+        select  id,name,description,is_enabled,company_id,create_user,create_date,modify_user,modify_date
+        from store
+        where id = #{id}
+    </select>
+
+</mapper>

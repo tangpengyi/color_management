@@ -1,4 +1,4 @@
-package com.cf.color_management;
+package com.cf.colorm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
