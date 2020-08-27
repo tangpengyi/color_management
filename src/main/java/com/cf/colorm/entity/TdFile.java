@@ -1,29 +1,45 @@
 package com.cf.colorm.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-/*
-资料信息表
- */
 @Data
+@ApiModel(value = "色卡资料")
 public class TdFile {
 
     private Integer id;
-    //颜色号
+
+    @ApiModelProperty(value = "颜色号")
     private String colorNo;
+
     private String colorName;
-    //资料类型
+
+    @ApiModelProperty(value = "资料类型")
     private String type;
-    //备注
+
+    @ApiModelProperty(value = "备注")
     private String description;
-    //仓库的ID
+
+    @ApiModelProperty(value = "仓库的ID")
     private Integer storeId;
-    //资料的状态
+
+    @ApiModelProperty(value = "资料的状态")
     private String status;
+
+    @ApiModelProperty(value = "编辑人名")
     private String editUser;
+
+    @ApiModelProperty(value = "创建人编号")
     private Integer createUser;
+
+    @ApiModelProperty(value = "创建时间")
     private String createDate;
+
+    @ApiModelProperty(value = "修改人编号")
     private Integer modifyUser;
+
+    @ApiModelProperty(value = "修改时间")
     private String modifyDate;
 
 }
