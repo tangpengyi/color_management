@@ -4,9 +4,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @ApiModel(value = "色卡资料")
-public class TdFile {
+public class TdFile implements Serializable {
 
     private Integer id;
 

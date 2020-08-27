@@ -2,11 +2,13 @@ package com.cf.colorm.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /*
  *   仓 库
  */
 @Data
-public class Store {
+public class Store implements Serializable {
 
     private Integer id;
     private String name;

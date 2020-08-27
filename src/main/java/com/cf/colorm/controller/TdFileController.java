@@ -6,7 +6,6 @@ import com.cf.colorm.service.TdFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class TdFileController {
 
     @ApiOperation(value="色卡资料新增")
     @PostMapping("add")
-    public ResponseResult add(@RequestBody @ApiParam(name="用户对象",value="传入json格式",required=true) TdFile tdFile){
+    public ResponseResult add(@RequestBody TdFile tdFile){
         return tdFileServiceImpl.add(tdFile);
     }
 
