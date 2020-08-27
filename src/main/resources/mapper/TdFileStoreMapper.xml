@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cf.colorm.dao.TdFileStoreDao">
+
+    <select id="findByColoeNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select s.id from warehouse.td_file_store AS s
+        INNER JOIN warehouse.td_file AS f ON s.file_id = f.id
+        where f.color_no = #{colorNo}
+    </select>
+
+    <insert id="add" parameterType="com.cf.colorm.entity.StoreInVO">
+        insert into warehouse.td_file_store(file_id,description,check_in_id,check_in_type,
+                check_in_user,address,store_id,create_user,create_date,modify_user,modify_date)
+        values(#{fileId},#{description},#{fileInId},#{type},#{fileId},#{fileId},#{fileId},)
+    </insert>
+
+</mapper>
