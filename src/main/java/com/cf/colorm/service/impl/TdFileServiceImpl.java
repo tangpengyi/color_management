@@ -22,4 +22,13 @@ public class TdFileServiceImpl implements TdFileService {
         }
         return CommonsResult.getFialResult("新增失败");
     }
+
+    @Override
+    public ResponseResult findColorNameByNo(String colorNo) {
+        String colorNameByColorNo = tdFileDao.findColorNameByColorNo(colorNo);
+        if(colorNameByColorNo == null){
+            return CommonsResult.getFialResult("资料无此颜色");
+        }
+        return CommonsResult.getSuccessResult("查询成功",colorNameByColorNo);
+    }
 }

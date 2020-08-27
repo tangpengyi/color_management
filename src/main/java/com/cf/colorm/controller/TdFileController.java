@@ -1,5 +1,6 @@
 package com.cf.colorm.controller;
 
+import com.cf.colorm.api.CommonsResult;
 import com.cf.colorm.api.ResponseResult;
 import com.cf.colorm.entity.TdFile;
 import com.cf.colorm.service.TdFileService;
@@ -25,9 +26,16 @@ public class TdFileController {
     private TdFileService tdFileServiceImpl;
 
     @ApiOperation(value="色卡资料新增")
+//    @ApiImplicitParam(name = "tdFile", value = "颜色信息",paramType = "body",required = true,dataType = "TdFile")
     @PostMapping("add")
     public ResponseResult add(@RequestBody TdFile tdFile){
         return tdFileServiceImpl.add(tdFile);
     }
 
+    @ApiOperation(value="查询",notes = "根据色号查询色")
+    @ApiImplicitParam(name = "colorNo", value = "色号",paramType = "query",required = true,dataType = "String")
+    @GetMapping("/get")
+    public ResponseResult get(String colorNo){
+        return tdFileServiceImpl.findColorNameByNo(colorNo);
+    }
 }

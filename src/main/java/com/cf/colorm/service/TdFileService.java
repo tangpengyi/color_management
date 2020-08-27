@@ -6,4 +6,6 @@ import com.cf.colorm.entity.TdFile;
 public interface TdFileService {
 
     public ResponseResult add(TdFile tdFile);
+
+    public ResponseResult findColorNameByNo(String colorNo);
 }

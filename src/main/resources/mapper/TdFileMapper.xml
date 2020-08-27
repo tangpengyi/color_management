@@ -5,7 +5,11 @@
 
     <insert id="add" parameterType="com.cf.colorm.entity.TdFile">
         insert into warehouse.td_file (color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date)
-    values (#{colorNo},#{colorName},#{type},#{description},#{storeId},#{status},1,1,getdate(),1,getdate())
-</insert>
+        values (#{colorNo},#{colorName},#{type},#{description},#{storeId},#{status},1,1,getdate(),1,getdate())
+  </insert>
+
+    <select id="findColorNameByColorNo" parameterType="java.lang.String" resultType="java.lang.String">
+        select color_name from warehouse.td_file where color_no = #{colorNo}
+    </select>
 
 </mapper>

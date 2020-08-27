@@ -20,7 +20,7 @@ public class StoreController {
     private StoreServer storeServerImpl;
 
     @ApiOperation(value="查询仓库", notes = "根据id查询仓库信息")
-    @ApiImplicitParam(name = "id", value = "仓库id",paramType = "query",required = true,dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "仓库id",paramType = "query",required = true,dataType = "int")
     @GetMapping("/get")
     public ResponseResult getStore(int id){
         return CommonsResult.getSuccessResult("查询成功",storeServerImpl.findStoreByid(id));

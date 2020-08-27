@@ -10,4 +10,6 @@ public interface TdFileDao {
 
     public int add(TdFile tdFile);
 
+    public String findColorNameByColorNo(String colorNo);
+
 }

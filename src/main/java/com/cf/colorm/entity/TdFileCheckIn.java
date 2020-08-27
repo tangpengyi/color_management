@@ -25,10 +25,10 @@ public class TdFileCheckIn implements Serializable {
     private String address;
 
     @ApiModelProperty(value = "仓库id")
-    private Integer storeId;
+    private Integer store_id;
 
     @ApiModelProperty(value = "入仓人")
-    private String checkInUser;
+    private String check_in_user;
 
     @ApiModelProperty("创建人id")
     private Integer createUser;

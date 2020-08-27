@@ -4,6 +4,7 @@ import com.cf.colorm.api.CommonsResult;
 import com.cf.colorm.api.ResponseResult;
 import com.cf.colorm.entity.TdFileCheckIn;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -20,6 +21,7 @@ public class StoreInController {
     private static Log log = LogFactory.getLog(StoreInController.class);
 
     @ApiOperation(value = "入仓")
+//    @ApiImplicitParam(name = "tdFileCheckIn", value = "入仓信息",paramType = "body",required = true,dataType = "TdFileCheckIn")
     @PostMapping("/add")
     public ResponseResult add(@RequestBody TdFileCheckIn tdFileCheckIn){
         log.info(tdFileCheckIn);
