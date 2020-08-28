@@ -11,7 +11,7 @@
     <insert id="add" parameterType="com.cf.colorm.entity.StoreInVO">
         insert into warehouse.td_file_store(file_id,description,check_in_id,check_in_type,
                 check_in_user,address,store_id,create_user,create_date,modify_user,modify_date)
-        values(#{fileId},#{description},#{fileInId},#{type},#{fileId},#{fileId},#{fileId},)
+        values(#{fileId},#{description},#{fileInId},#{type},#{check_in_user},#{address},#{storeId},1,getdate(),1,getdate())
     </insert>
 
 </mapper>

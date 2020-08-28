@@ -24,7 +24,7 @@ public class StoreInVO {
     private String address;
 
     @ApiModelProperty(value = "仓库编号")
-    private Integer store_id;
+    private Integer storeId;
 
     @ApiModelProperty(value = "入仓人")
     private String check_in_user;

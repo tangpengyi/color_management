@@ -1,6 +1,5 @@
 package com.cf.colorm.controller;
 
-import com.cf.colorm.api.CommonsResult;
 import com.cf.colorm.api.ResponseResult;
 import com.cf.colorm.entity.StoreInVO;
 import com.cf.colorm.service.StoreInService;

@@ -3,12 +3,12 @@
 <mapper namespace="com.cf.colorm.dao.TdFileCheckInDao">
 
     <insert id="add" parameterType="com.cf.colorm.entity.StoreInVO">
-        insert into warehouse.td_file_check_in(file_id,type,description,address,store_id.check_in_user
+        insert into warehouse.td_file_check_in(file_id,type,description,address,store_id,check_in_user
         ,create_user,create_date,modify_user,modify_date)
-        values (#{fileId},#{type},#{description},#{address}#{store_id},#{check_in_user},1,getdate(),1,getdate)
+        values (#{fileId},#{type},#{description},#{address},#{storeId},#{check_in_user},1,getdate(),1,getdate())
     </insert>
 
     <select id="getIdByFileId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        select max(id)from warehouse.td_file_check_in where file_id = #{fileId}
+        select max(id) from warehouse.td_file_check_in where file_id = #{fileId}
     </select>
 </mapper>
