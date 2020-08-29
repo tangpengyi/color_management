@@ -54,4 +54,10 @@ public class TdFileController {
     public ResponseResult getAll(){
         return tdFileServiceImpl.findAll();
     }
+
+    @ApiOperation(value="查询所有颜色信息",notes = "查询所有颜色信息")
+    @PostMapping("/modity")
+    public ResponseResult modityTdFile(@RequestBody TdFile tdFile){
+        return tdFileServiceImpl.modityTdFile(tdFile);
+    }
 }

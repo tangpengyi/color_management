@@ -16,7 +16,7 @@
 
     <select id="getStoreById" parameterType="java.lang.Integer" resultMap="storeResult">
         select  id,name,description,is_enabled,company_id,create_user,create_date,modify_user,modify_date
-        from warehouse.store
+        from warehouse.store with(nolock)
         where id = #{id}
     </select>
 

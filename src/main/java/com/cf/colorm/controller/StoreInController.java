@@ -26,11 +26,19 @@ public class StoreInController {
     public ResponseResult add(@RequestBody StoreInVO storeInVO){
         return storeInServiceImpl.storeIn(storeInVO);
     }
+
+
     @ApiOperation(value = "查询所有库存")
-//    @ApiImplicitParam(name = "tdFileCheckIn", value = "入仓信息",paramType = "body",required = true,dataType = "TdFileCheckIn")
     @GetMapping("/get")
     public ResponseResult getAll(){
         return storeInServiceImpl.getAll();
+    }
+
+    @ApiOperation(value = "出库")
+    @GetMapping("/storeOut")
+    public ResponseResult storeOut(){
+
+        return null;
     }
 
 }

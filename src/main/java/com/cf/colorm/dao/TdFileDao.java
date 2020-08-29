@@ -19,4 +19,8 @@ public interface TdFileDao {
     public TdFile findColorByColorName(String colorName);
 
     public List<TdFile> findAll();
+
+    public int modityTdfile(TdFile tdFile);
+
+    public TdFile findColorById(int id);
 }

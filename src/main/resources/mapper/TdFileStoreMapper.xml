@@ -18,8 +18,8 @@
     </resultMap>
 
     <select id="findByColoeNo" parameterType="java.lang.String" resultType="java.lang.Integer">
-        select s.id from warehouse.td_file_store AS s
-        INNER JOIN warehouse.td_file AS f ON s.file_id = f.id
+        select s.id from warehouse.td_file_store AS s with(nolock)
+        INNER JOIN warehouse.td_file AS f with(nolock) ON s.file_id = f.id with(nolock)
         where f.color_no = #{colorNo}
     </select>
 
@@ -30,8 +30,8 @@
     </insert>
 
     <select id="findAll" resultMap="tdFileStoreMap">
-        select *
-        from warehouse.td_file_store
+        select top 100 *
+        from warehouse.td_file_store with(nolock)
         order by id
     </select>
 </mapper>

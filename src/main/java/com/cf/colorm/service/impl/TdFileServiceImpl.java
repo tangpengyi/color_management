@@ -2,7 +2,9 @@ package com.cf.colorm.service.impl;
 
 import com.cf.colorm.api.CommonsResult;
 import com.cf.colorm.api.ResponseResult;
+import com.cf.colorm.dao.TdFileCheckInDao;
 import com.cf.colorm.dao.TdFileDao;
+import com.cf.colorm.dao.TdFileStoreDao;
 import com.cf.colorm.entity.TdFile;
 import com.cf.colorm.service.TdFileService;
 import org.apache.juli.logging.Log;
@@ -19,6 +21,13 @@ public class TdFileServiceImpl implements TdFileService {
 
     @Autowired
     private TdFileDao tdFileDao;
+
+    @Autowired
+    private TdFileStoreDao tdFileStoreDao;
+
+    @Autowired
+    private TdFileCheckInDao tdFileCheckInDao;
+
 
     @Override
     public ResponseResult add(TdFile tdFile) {
@@ -53,6 +62,8 @@ public class TdFileServiceImpl implements TdFileService {
             tdFile = tdFileDao.findColorByColorName(param);
         }else if("缸号".equals(condition)){
             return CommonsResult.getSuccessResult("查询成功",tdFileDao.findColorByColorName(param));
+        }else if("全部库存".equals(condition)){
+            return CommonsResult.getSuccessResult("查询成功",tdFileDao.findAll());
         }
 
         if(tdFile == null){
@@ -68,5 +79,27 @@ public class TdFileServiceImpl implements TdFileService {
             return CommonsResult.getFialResult("无色卡信息");
         }
         return  CommonsResult.getSuccessResult("查询成功",list);
+    }
+
+    @Override
+    public ResponseResult modityTdFile(TdFile tdFile) {
+
+        TdFile color = tdFileDao.findColorById(tdFile.getId());
+        if(color == null){
+            return CommonsResult.getFialResult("该信息已被删除");
+        }
+
+        //判断该颜色是否借出，借出不法修改，未借出可以修改色号
+        Integer fileId = tdFileCheckInDao.getIdByFileId(tdFile.getId());
+        //不存在借出记录
+        if(fileId != null || fileId > 0){
+            return CommonsResult.getFialResult("该资料存在借出记录，无法修改色号");
+        }
+
+        int i = tdFileDao.modityTdfile(tdFile);
+        if(i > 0){
+            return CommonsResult.getSuccessResult("修改成功");
+        }
+        return CommonsResult.getFialResult("修改失败");
     }
 }

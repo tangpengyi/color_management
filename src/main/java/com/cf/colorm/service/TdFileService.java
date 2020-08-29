@@ -12,4 +12,6 @@ public interface TdFileService {
     public ResponseResult findColorByCondition(String condition,String param);
 
     public ResponseResult findAll();
+
+    public ResponseResult modityTdFile(TdFile tdFile);
 }

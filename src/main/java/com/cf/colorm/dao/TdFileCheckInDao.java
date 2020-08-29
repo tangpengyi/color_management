@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 /**
- * 入仓信息
+ * 入仓记录
  */
 
 @Mapper

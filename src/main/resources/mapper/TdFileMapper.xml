@@ -18,7 +18,7 @@
     </resultMap>
 
     <select id="findAll" resultMap="fileMap">
-        select color_no,color_name,type,description,status from warehouse.td_file
+        select top 100 color_no,color_name,type,description,status from warehouse.td_file with(nolock)
     </select>
 
     <insert id="add" parameterType="com.cf.colorm.entity.TdFile">
@@ -28,17 +28,24 @@
 
     <select id="findColorByColorNo" parameterType="java.lang.String" resultMap="fileMap">
         select  id,color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date
-        from warehouse.td_file where color_no = #{colorNo}
+        from warehouse.td_file with(nolock) where color_no = #{colorNo}
     </select>
 
 
     <select id="findFileIdByColorNo" parameterType="java.lang.String" resultType="java.lang.Integer">
-        select id from warehouse.td_file where color_no = #{colorNo}
+        select id from warehouse.td_file with(nolock) where color_no = #{colorNo}
     </select>
 
 
     <select id="findColorByColorName" parameterType="java.lang.String" resultMap="fileMap">
         select id,color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date
-        from warehouse.td_file where color_name = #{colorName}
+        from warehouse.td_file with(nolock) where color_name = #{colorName}
     </select>
+
+    <update id="modityTdfile" parameterType="com.cf.colorm.entity.TdFile">
+        UPDATE warehouse.td_file
+        SET color_no = #{colorNo},color_name=#{colorName},type=#{type},description=#{description},status=#{status},modify_user = 1,modify_date = getdate()
+        WHERE id = #{id}
+    </update>
+
 </mapper>
