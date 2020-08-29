@@ -2,6 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cf.colorm.dao.TdFileStoreDao">
 
+    <resultMap id="tdFileStoreMap" type="com.cf.colorm.entity.TdFileStore">
+        <id column="id" property="id" />
+        <result column="file_id" property="fileId"/>
+        <result column="description" property="description"/>
+        <result column="check_in_id" property="checkInId"/>
+        <result column="check_in_type" property="checkInType"/>
+        <result column="check_in_user" property="checkInUser"/>
+        <result column="address" property="address"/>
+        <result column="store_id" property="storeId"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_date" property="createDate"/>
+        <result column="modify_user" property="modifyUser"/>
+        <result column="modify_date" property="modifyDate"/>
+    </resultMap>
+
     <select id="findByColoeNo" parameterType="java.lang.String" resultType="java.lang.Integer">
         select s.id from warehouse.td_file_store AS s
         INNER JOIN warehouse.td_file AS f ON s.file_id = f.id
@@ -14,4 +29,9 @@
         values(#{fileId},#{description},#{fileInId},#{type},#{check_in_user},#{address},#{storeId},1,getdate(),1,getdate())
     </insert>
 
+    <select id="findAll" resultMap="tdFileStoreMap">
+        select *
+        from warehouse.td_file_store
+        order by id
+    </select>
 </mapper>

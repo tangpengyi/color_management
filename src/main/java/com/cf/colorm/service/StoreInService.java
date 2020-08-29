@@ -6,4 +6,6 @@ import com.cf.colorm.entity.StoreInVO;
 public interface StoreInService {
 
     public ResponseResult storeIn(StoreInVO storeInVO);
+
+    public ResponseResult getAll();
 }

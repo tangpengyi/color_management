@@ -5,6 +5,8 @@ import com.cf.colorm.entity.TdFileStore;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 //库存
 
 @Component
@@ -14,5 +16,7 @@ public interface TdFileStoreDao {
     public Integer findByColoeNo(String colorNo);
 
     public int add(StoreInVO storeInVO);
+
+    public List<TdFileStore> findAll();
 
 }

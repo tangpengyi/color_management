@@ -1,11 +1,11 @@
 package com.cf.colorm.controller;
 
-import com.cf.colorm.api.CommonsResult;
 import com.cf.colorm.api.ResponseResult;
 import com.cf.colorm.entity.TdFile;
 import com.cf.colorm.service.TdFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -32,10 +32,26 @@ public class TdFileController {
         return tdFileServiceImpl.add(tdFile);
     }
 
-    @ApiOperation(value="查询",notes = "根据色号查询色")
+    @ApiOperation(value="根据色号查询",notes = "根据色号查询色")
     @ApiImplicitParam(name = "colorNo", value = "色号",paramType = "query",required = true,dataType = "String")
     @GetMapping("/get")
     public ResponseResult get(String colorNo){
         return tdFileServiceImpl.findColorNameByNo(colorNo);
+    }
+
+    @ApiOperation(value="查询",notes = "条件查询色")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "condition", value = "条件",paramType = "query",required = true,dataType = "String"),
+            @ApiImplicitParam(name = "param", value = "参数",paramType = "query",required = true,dataType = "String")
+    })
+    @GetMapping("/getByCondition")
+    public ResponseResult get(String condition,String param){
+        return tdFileServiceImpl.findColorByCondition(condition,param);
+    }
+
+    @ApiOperation(value="查询所有颜色信息",notes = "查询所有颜色信息")
+    @GetMapping("/getAll")
+    public ResponseResult getAll(){
+        return tdFileServiceImpl.findAll();
     }
 }

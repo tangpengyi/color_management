@@ -8,10 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(tags = "库存")
@@ -28,6 +25,12 @@ public class StoreInController {
     @PostMapping("/add")
     public ResponseResult add(@RequestBody StoreInVO storeInVO){
         return storeInServiceImpl.storeIn(storeInVO);
+    }
+    @ApiOperation(value = "查询所有库存")
+//    @ApiImplicitParam(name = "tdFileCheckIn", value = "入仓信息",paramType = "body",required = true,dataType = "TdFileCheckIn")
+    @GetMapping("/get")
+    public ResponseResult getAll(){
+        return storeInServiceImpl.getAll();
     }
 
 }

@@ -12,8 +12,11 @@ public interface TdFileDao {
 
     public int add(TdFile tdFile);
 
-    public String findColorNameByColorNo(String colorNo);
+    public TdFile findColorByColorNo(String colorNo);
 
-    public List<Integer> findFileIdByColorNo(String colorNo);
+    public Integer findFileIdByColorNo(String colorNo);
 
+    public TdFile findColorByColorName(String colorName);
+
+    public List<TdFile> findAll();
 }

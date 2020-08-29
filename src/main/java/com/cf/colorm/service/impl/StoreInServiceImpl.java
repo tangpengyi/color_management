@@ -6,6 +6,7 @@ import com.cf.colorm.dao.TdFileCheckInDao;
 import com.cf.colorm.dao.TdFileDao;
 import com.cf.colorm.dao.TdFileStoreDao;
 import com.cf.colorm.entity.StoreInVO;
+import com.cf.colorm.entity.TdFileStore;
 import com.cf.colorm.service.StoreInService;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -47,17 +48,17 @@ public class StoreInServiceImpl implements StoreInService {
                 return CommonsResult.getFialResult("库存中已经在数据");
             }
             //获取资料id
-            List<Integer> list = tdFileDao.findFileIdByColorNo(storeInVO.getColorNo());
+            Integer fileId = tdFileDao.findFileIdByColorNo(storeInVO.getColorNo());
 
             //入仓 添加入库记录信息
-            storeInVO.setFileId(list.get(0));
+            storeInVO.setFileId(fileId);
             if(tdFileCheckInDao.add(storeInVO) == 0){
                 dataSourceTransactionManager.rollback(transactionStatus);
                 return CommonsResult.getFialResult("入仓失败");
             }
 
             //获取入仓的编号
-            storeInVO.setFileInId(tdFileCheckInDao.getIdByFileId(list.get(0)));
+            storeInVO.setFileInId(tdFileCheckInDao.getIdByFileId(fileId));
 
             //添加库存信息
             tdFileStoreDao.add(storeInVO);
@@ -69,4 +70,15 @@ public class StoreInServiceImpl implements StoreInService {
         }
         return CommonsResult.getSuccessResult("入库成功");
     }
+
+    @Override
+    public ResponseResult getAll() {
+        List<TdFileStore> list = tdFileStoreDao.findAll();
+
+        if(list == null || list.size() == 0){
+            return CommonsResult.getFialResult("没有库存信息");
+        }
+        return CommonsResult.getSuccessResult("查询成功",list);
+    }
+
 }

@@ -2,14 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cf.colorm.dao.TdFileDao">
 
+    <resultMap id="fileMap" type="com.cf.colorm.entity.TdFile">
+        <id property="id" column="id"/>
+        <result column="color_no" property="colorNo"/>
+        <result column="color_name" property="colorName"/>
+        <result column="type" property="type"/>
+        <result column="description" property="description"/>
+        <result column="store_id" property="storeId"/>
+        <result column="status" property="status"/>
+        <result column="edit_user" property="editUser"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_date" property="createDate"/>
+        <result column="modify_user" property="modifyUser"/>
+        <result column="modify_date" property="modifyDate"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="fileMap">
+        select color_no,color_name,type,description,status from warehouse.td_file
+    </select>
 
     <insert id="add" parameterType="com.cf.colorm.entity.TdFile">
         insert into warehouse.td_file (color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date)
         values (#{colorNo},#{colorName},#{type},#{description},#{storeId},#{status},1,1,getdate(),1,getdate())
   </insert>
 
-    <select id="findColorNameByColorNo" parameterType="java.lang.String" resultType="java.lang.String">
-        select color_name from warehouse.td_file where color_no = #{colorNo}
+    <select id="findColorByColorNo" parameterType="java.lang.String" resultMap="fileMap">
+        select  id,color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date
+        from warehouse.td_file where color_no = #{colorNo}
     </select>
 
 
@@ -18,4 +37,8 @@
     </select>
 
 
+    <select id="findColorByColorName" parameterType="java.lang.String" resultMap="fileMap">
+        select id,color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date
+        from warehouse.td_file where color_name = #{colorName}
+    </select>
 </mapper>
