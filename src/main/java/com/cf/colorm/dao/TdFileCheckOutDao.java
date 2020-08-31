@@ -1,19 +1,15 @@
 package com.cf.colorm.dao;
 
-import com.cf.colorm.entity.StoreInVO;
-import com.cf.colorm.entity.TdFileCheckIn;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 /**
- * 入库记录
+ * 借出记录
  */
-
-@Mapper
 @Component
-public interface TdFileCheckInDao {
-
-    public int add(StoreInVO storeInVO);
+@Mapper
+public interface TdFileCheckOutDao {
 
     public int getIdByFileId(int fileId);
+
 }

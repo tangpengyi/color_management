@@ -9,6 +9,6 @@
     </insert>
 
     <select id="getIdByFileId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        select max(id) from warehouse.td_file_check_in with(nolock) where file_id = #{fileId}
+        select TOP 1 id from warehouse.td_file_check_in with(nolock) where file_id = #{fileId}
     </select>
 </mapper>

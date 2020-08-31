@@ -18,7 +18,7 @@
     </resultMap>
 
     <select id="findAll" resultMap="fileMap">
-        select top 100 color_no,color_name,type,description,status from warehouse.td_file with(nolock)
+        select top 100 id,color_no,color_name,type,description,status from warehouse.td_file with(nolock)
     </select>
 
     <insert id="add" parameterType="com.cf.colorm.entity.TdFile">
@@ -47,5 +47,10 @@
         SET color_no = #{colorNo},color_name=#{colorName},type=#{type},description=#{description},status=#{status},modify_user = 1,modify_date = getdate()
         WHERE id = #{id}
     </update>
+
+    <select id="findColorById" parameterType="java.lang.Integer" resultMap="fileMap">
+        select id,color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date
+        from warehouse.td_file with(nolock) where id = #{id}
+    </select>
 
 </mapper>
