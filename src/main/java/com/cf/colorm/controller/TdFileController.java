@@ -60,4 +60,11 @@ public class TdFileController {
     public ResponseResult modityTdFile(@RequestBody TdFile tdFile){
         return tdFileServiceImpl.modityTdFile(tdFile);
     }
+
+    @ApiOperation(value="根据id删除颜色",notes = "根据id删除颜色")
+    @ApiImplicitParam(name = "id", value = "资料id",paramType = "query",required = true,dataType = "Integer")
+    @PostMapping("/removeById")
+    public ResponseResult removeById(Integer id){
+        return tdFileServiceImpl.removeById(id);
+    }
 }

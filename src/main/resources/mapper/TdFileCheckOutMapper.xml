@@ -5,4 +5,10 @@
     <select id="getIdByFileId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         SELECT TOP 1 id from warehouse.td_file_check_out with(nolock) where file_id = #{fileId}
     </select>
+
+    <insert id="add" parameterType="com.cf.colorm.entity.TdFileCheckOut">
+        insert into warehouse.td_file_check_out (file_id,type,description,store_id,check_out_user,create_user,create_date,modify_user,modify_date)
+        values (#{fileId},#{type},#{description},#{storeId},1,1,getdate(),1,getdate())
+    </insert>
+
 </mapper>

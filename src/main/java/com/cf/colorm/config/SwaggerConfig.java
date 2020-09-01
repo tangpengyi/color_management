@@ -3,7 +3,6 @@ package com.cf.colorm.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Profiles;
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -25,7 +24,6 @@ public class SwaggerConfig {
     public Docket docket(Environment environment){
         Profiles profiles = Profiles.of("dev", "test");
         boolean b = environment.acceptsProfiles(profiles);
-        System.out.println(b);
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())

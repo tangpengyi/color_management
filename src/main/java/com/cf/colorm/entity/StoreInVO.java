@@ -23,15 +23,15 @@ public class StoreInVO {
     @ApiModelProperty(value = "存放地址")
     private String address;
 
-    @ApiModelProperty(value = "仓库编号")
+    @ApiModelProperty(value = "仓库编号",example="1")
     private Integer storeId;
 
     @ApiModelProperty(value = "入仓人")
     private String check_in_user;
 
-    @ApiModelProperty(value = "仓库id")
+    @ApiModelProperty(value = "资料id",example="1")
     private Integer fileId;
 
-    @ApiModelProperty(value = "入仓id")
+    @ApiModelProperty(value = "入仓id",example="1")
     private Integer fileInId;
 }

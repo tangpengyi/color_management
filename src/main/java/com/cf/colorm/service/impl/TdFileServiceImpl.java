@@ -7,6 +7,7 @@ import com.cf.colorm.dao.TdFileCheckOutDao;
 import com.cf.colorm.dao.TdFileDao;
 import com.cf.colorm.dao.TdFileStoreDao;
 import com.cf.colorm.entity.TdFile;
+import com.cf.colorm.entity.TdFileStore;
 import com.cf.colorm.service.TdFileService;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -116,5 +117,30 @@ public class TdFileServiceImpl implements TdFileService {
         }
 
         return CommonsResult.getFialResult("修改失败");
+    }
+
+    @Override
+    public ResponseResult removeById(Integer id) {
+
+        //没有库存直接删除
+        TdFileStore tdFileStore = tdFileStoreDao.findByFileId(id);
+        //不存在库存直接删除
+        if(tdFileStore == null){
+            if(tdFileDao.removeById(id) > 0){
+                return CommonsResult.getSuccessResult("删除成功!");
+            }
+
+            return CommonsResult.getFialResult("删除失败!");
+        }
+
+
+        //有库存，删除库存（添加出仓信息，删除库存信息）
+        int add = tdFileCheckOutDao.add(null);
+
+
+        //再删除资料信息
+
+
+        return null;
     }
 }

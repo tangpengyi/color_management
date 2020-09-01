@@ -4,34 +4,26 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-@ApiModel(value = "库存信息")
-public class TdFileStore implements Serializable {
+@ApiModel(value = "出仓信息")
+public class TdFileCheckOut {
 
     private Integer id;
 
     @ApiModelProperty(value = "色卡资料id",example="1")
     private Integer fileId;
 
-    @ApiModelProperty(value = "入仓记录id",example="1")
-    private Integer checkInId;
-
     @ApiModelProperty(value = "入仓类型")
-    private String checkInType;
+    private String type;
 
     @ApiModelProperty(value = "备注")
     private String description;
-
-    @ApiModelProperty(value = "地址")
-    private String address;
 
     @ApiModelProperty(value = "仓库id",example="1")
     private Integer storeId;
 
     @ApiModelProperty(value = "入仓人")
-    private String checkInUser;
+    private String check_out_user;
 
     @ApiModelProperty(value = "创建人id",example="1")
     private Integer createUser;

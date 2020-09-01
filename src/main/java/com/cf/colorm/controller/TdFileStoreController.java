@@ -3,7 +3,9 @@ package com.cf.colorm.controller;
 import com.cf.colorm.api.ResponseResult;
 import com.cf.colorm.entity.StoreInVO;
 import com.cf.colorm.service.StoreInService;
+import com.cf.colorm.service.StoreOutService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -13,15 +15,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Api(tags = "库存")
 @RequestMapping("colorm/storein")
-public class StoreInController {
+public class TdFileStoreController {
 
-    private static Log log = LogFactory.getLog(StoreInController.class);
+    private static Log log = LogFactory.getLog(TdFileStoreController.class);
 
     @Autowired
     private StoreInService storeInServiceImpl;
 
+    @Autowired
+    private StoreOutService storeOutService;
+
     @ApiOperation(value = "入仓")
-//    @ApiImplicitParam(name = "tdFileCheckIn", value = "入仓信息",paramType = "body",required = true,dataType = "TdFileCheckIn")
     @PostMapping("/add")
     public ResponseResult add(@RequestBody StoreInVO storeInVO){
         return storeInServiceImpl.storeIn(storeInVO);
@@ -35,10 +39,10 @@ public class StoreInController {
     }
 
     @ApiOperation(value = "出库")
+    @ApiImplicitParam(name = "id", value = "库存id",paramType = "query",required = true,dataType = "Integer")
     @GetMapping("/storeOut")
-    public ResponseResult storeOut(){
-
-        return null;
+    public ResponseResult storeOut(Integer id){
+        return storeOutService.storeOut(id);
     }
 
 }

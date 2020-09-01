@@ -16,4 +16,5 @@ public class StoreServerImpl implements StoreServer {
     public Store findStoreByid(int id) {
         return storeDao.getStoreById(id);
     }
+
 }

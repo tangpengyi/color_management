@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * 资料信息
+ */
 @Component
 @Mapper
 public interface TdFileDao {
@@ -24,4 +27,5 @@ public interface TdFileDao {
 
     public TdFile findColorById(int id);
 
+    public int removeById(Integer id);
 }

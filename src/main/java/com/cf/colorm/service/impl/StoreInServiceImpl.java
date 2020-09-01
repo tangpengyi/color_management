@@ -6,6 +6,7 @@ import com.cf.colorm.dao.TdFileCheckInDao;
 import com.cf.colorm.dao.TdFileDao;
 import com.cf.colorm.dao.TdFileStoreDao;
 import com.cf.colorm.entity.StoreInVO;
+import com.cf.colorm.entity.TdFile;
 import com.cf.colorm.entity.TdFileStore;
 import com.cf.colorm.service.StoreInService;
 import org.apache.juli.logging.Log;
@@ -47,6 +48,13 @@ public class StoreInServiceImpl implements StoreInService {
             if(tdFileStoreDao.findByColoeNo(storeInVO.getColorNo()) != null) {
                 return CommonsResult.getFialResult("库存中已经在数据");
             }
+
+            //判断该颜色是否报废
+            TdFile tdFile = tdFileDao.findColorByColorNo(storeInVO.getColorNo());
+            if("报废".equals(tdFile.getStatus())){
+                return CommonsResult.getFialResult("此颜色已报废");
+            }
+
             //获取资料id
             Integer fileId = tdFileDao.findFileIdByColorNo(storeInVO.getColorNo());
 

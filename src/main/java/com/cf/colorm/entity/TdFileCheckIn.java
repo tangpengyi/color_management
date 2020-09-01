@@ -12,7 +12,7 @@ public class TdFileCheckIn implements Serializable {
 
     private Integer id;
 
-    @ApiModelProperty(value = "色卡资料id")
+    @ApiModelProperty(value = "色卡资料id",example="1001")
     private Integer fileId;
 
     @ApiModelProperty(value = "入仓类型")
@@ -24,19 +24,19 @@ public class TdFileCheckIn implements Serializable {
     @ApiModelProperty(value = "地址")
     private String address;
 
-    @ApiModelProperty(value = "仓库id")
+    @ApiModelProperty(value = "仓库id",example="1")
     private Integer store_id;
 
     @ApiModelProperty(value = "入仓人")
     private String check_in_user;
 
-    @ApiModelProperty("创建人id")
+    @ApiModelProperty(value = "创建人id",example="1")
     private Integer createUser;
 
     @ApiModelProperty("创建时间")
     private String createDate;
 
-    @ApiModelProperty(value = "修改人id")
+    @ApiModelProperty(value = "修改人id",example="1")
     private Integer modifyUser;
 
     @ApiModelProperty(value = "修改时间")

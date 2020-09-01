@@ -14,4 +14,6 @@ public interface TdFileService {
     public ResponseResult findAll();
 
     public ResponseResult modityTdFile(TdFile tdFile);
+
+    public ResponseResult removeById(Integer id);
 }

@@ -23,7 +23,7 @@ public class TdFile implements Serializable {
     @ApiModelProperty(value = "备注")
     private String description;
 
-    @ApiModelProperty(value = "仓库的ID")
+    @ApiModelProperty(value = "仓库的ID",example="1")
     private Integer storeId;
 
     @ApiModelProperty(value = "资料的状态")
@@ -32,13 +32,13 @@ public class TdFile implements Serializable {
     @ApiModelProperty(value = "编辑人名")
     private String editUser;
 
-    @ApiModelProperty(value = "创建人编号")
+    @ApiModelProperty(value = "创建人编号",example="1")
     private Integer createUser;
 
     @ApiModelProperty(value = "创建时间")
     private String createDate;
 
-    @ApiModelProperty(value = "修改人编号")
+    @ApiModelProperty(value = "修改人编号",example="1")
     private Integer modifyUser;
 
     @ApiModelProperty(value = "修改时间")

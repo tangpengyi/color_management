@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-//库存
+/**
+ * 库存
+ */
 
 @Component
 @Mapper
@@ -18,5 +20,8 @@ public interface TdFileStoreDao {
     public int add(StoreInVO storeInVO);
 
     public List<TdFileStore> findAll();
+
+    public TdFileStore findByFileId(Integer fileId);
+
 
 }

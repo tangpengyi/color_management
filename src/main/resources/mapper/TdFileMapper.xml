@@ -53,4 +53,8 @@
         from warehouse.td_file with(nolock) where id = #{id}
     </select>
 
+    <update id="removeById" parameterType="java.lang.Integer">
+        update warehouse.td_file set status = '报废' where id = #{id}
+    </update>
+
 </mapper>
