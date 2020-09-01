@@ -4,6 +4,6 @@ import com.cf.colorm.api.ResponseResult;
 
 public interface StoreOutService {
 
-    public ResponseResult storeOut(int id);
+    public ResponseResult storeOut(int id,String userName);
 
 }

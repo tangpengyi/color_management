@@ -9,6 +9,7 @@ import com.cf.colorm.dao.TdFileStoreDao;
 import com.cf.colorm.entity.TdFile;
 import com.cf.colorm.entity.TdFileStore;
 import com.cf.colorm.service.TdFileService;
+import com.cf.colorm.utils.JWTUtls;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class TdFileServiceImpl implements TdFileService {
     @Override
     public ResponseResult add(TdFile tdFile) {
 
+        tdFile.setCreateUser(JWTUtls.getUserIdByRequest());
+        tdFile.setEditUser(JWTUtls.getUserIdByRequest()+"");
         //判断颜色资料是否存在
         if (tdFileDao.findFileIdByColorNo(tdFile.getColorNo()) != null) {
             return CommonsResult.getFialResult("色卡资料已经存在");
@@ -110,6 +113,7 @@ public class TdFileServiceImpl implements TdFileService {
             }
         }
 
+        tdFile.setModifyUser(JWTUtls.getUserIdByRequest());
         //不需要修改色号   无借出，入仓记录
         int i = tdFileDao.modityTdfile(tdFile);
         if (i > 0) {
@@ -122,11 +126,15 @@ public class TdFileServiceImpl implements TdFileService {
     @Override
     public ResponseResult removeById(Integer id) {
 
-        //没有库存直接删除
+        TdFile tdFile = new TdFile();
+        tdFile.setId(id);
+        tdFile.setModifyUser(JWTUtls.getUserIdByRequest());
+
+        //查询库存
         TdFileStore tdFileStore = tdFileStoreDao.findByFileId(id);
         //不存在库存直接删除
         if(tdFileStore == null){
-            if(tdFileDao.removeById(id) > 0){
+            if(tdFileDao.removeById(tdFile) > 0){
                 return CommonsResult.getSuccessResult("删除成功!");
             }
 

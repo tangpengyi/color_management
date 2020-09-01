@@ -23,7 +23,7 @@
 
     <insert id="add" parameterType="com.cf.colorm.entity.TdFile">
         insert into warehouse.td_file (color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date)
-        values (#{colorNo},#{colorName},#{type},#{description},#{storeId},#{status},1,1,getdate(),1,getdate())
+        values (#{colorNo},#{colorName},#{type},#{description},#{storeId},#{status},1,#{createUser},getdate(),#{modifyUser},getdate())
   </insert>
 
     <select id="findColorByColorNo" parameterType="java.lang.String" resultMap="fileMap">
@@ -44,7 +44,7 @@
 
     <update id="modityTdfile" parameterType="com.cf.colorm.entity.TdFile">
         UPDATE warehouse.td_file
-        SET color_no = #{colorNo},color_name=#{colorName},type=#{type},description=#{description},status=#{status},modify_user = 1,modify_date = getdate()
+        SET color_no = #{colorNo},color_name=#{colorName},type=#{type},description=#{description},status=#{status},modify_user = #{modifyUser},modify_date = getdate()
         WHERE id = #{id}
     </update>
 
@@ -53,8 +53,8 @@
         from warehouse.td_file with(nolock) where id = #{id}
     </select>
 
-    <update id="removeById" parameterType="java.lang.Integer">
-        update warehouse.td_file set status = '报废' where id = #{id}
+    <update id="removeById" parameterType="com.cf.colorm.entity.TdFile">
+        update warehouse.td_file set status = '报废',modify_user = #{modifyUser} where id = #{id}
     </update>
 
 </mapper>

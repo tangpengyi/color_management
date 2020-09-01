@@ -13,7 +13,7 @@ public class TdFileCheckOut {
     @ApiModelProperty(value = "色卡资料id",example="1")
     private Integer fileId;
 
-    @ApiModelProperty(value = "入仓类型")
+    @ApiModelProperty(value = "出仓类型")
     private String type;
 
     @ApiModelProperty(value = "备注")

@@ -39,4 +39,12 @@
     <select id="findByFileId" parameterType="java.lang.Integer" resultMap="tdFileStoreMap">
         select * from warehouse.td_file_store with(nolock) where file_id = #{fileId}
     </select>
+
+    <select id="findById" parameterType="java.lang.Integer">
+        select * from warehouse.td_file_store where id = #{id}
+    </select>
+
+    <delete id="removeById" parameterType="java.lang.Integer">
+        delete from warehouse.td_file_store where id = #{id}
+    </delete>
 </mapper>

@@ -2,9 +2,9 @@ package com.cf.colorm.service.impl;
 
 import com.cf.colorm.api.CommonsResult;
 import com.cf.colorm.api.ResponseResult;
-import com.cf.colorm.dao.StoreDao;
 import com.cf.colorm.dao.TdFileCheckOutDao;
-import com.cf.colorm.entity.Store;
+import com.cf.colorm.dao.TdFileStoreDao;
+import com.cf.colorm.entity.TdFileStore;
 import com.cf.colorm.service.StoreOutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,24 +17,27 @@ public class StoreOutServiceImpl implements StoreOutService {
     private TdFileCheckOutDao tdFileCheckOutDao;
 
     @Autowired
-    private StoreDao storeDao;
+    private TdFileStoreDao tdFileStoreDao;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult storeOut(int id) {
+    public ResponseResult storeOut(int id,String userName) {
 
         //判断库存中是否存在信息
-        Store store = storeDao.getStoreById(id);
-        if(store == null){
-            return CommonsResult.getSuccessResult("库存中不存在此资料");
+        TdFileStore tdFileStore = tdFileStoreDao.findByFileId(id);
+        if(tdFileStore == null){
+            return CommonsResult.getFialResult("库存中不存在该资料");
         }
+
         //删除库存
+        if(tdFileStoreDao.removeById(id) == 0){
+            return CommonsResult.getFialResult("借出失败");
+        }
+
+        //删除成功，添加出仓信息
 
 
-
-
-        //删除成功，删除出仓信息
-        return null;
+        return CommonsResult.getSuccessResult("出仓成功");
     }
 
 }

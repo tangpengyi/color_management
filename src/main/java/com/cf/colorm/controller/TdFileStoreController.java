@@ -6,6 +6,7 @@ import com.cf.colorm.service.StoreInService;
 import com.cf.colorm.service.StoreOutService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -39,10 +40,13 @@ public class TdFileStoreController {
     }
 
     @ApiOperation(value = "出库")
-    @ApiImplicitParam(name = "id", value = "库存id",paramType = "query",required = true,dataType = "Integer")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "库存id",paramType = "query",required = true,dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "用户姓名",paramType = "query",required = true,dataType = "String")
+    })
     @GetMapping("/storeOut")
-    public ResponseResult storeOut(Integer id){
-        return storeOutService.storeOut(id);
+    public ResponseResult storeOut(Integer id,String userName){
+        return storeOutService.storeOut(id,userName);
     }
 
 }

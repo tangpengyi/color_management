@@ -23,5 +23,8 @@ public interface TdFileStoreDao {
 
     public TdFileStore findByFileId(Integer fileId);
 
+    public TdFileStore findById(Integer id);
+
+    public int removeById(int Id);
 
 }

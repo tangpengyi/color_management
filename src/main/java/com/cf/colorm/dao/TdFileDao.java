@@ -27,5 +27,5 @@ public interface TdFileDao {
 
     public TdFile findColorById(int id);
 
-    public int removeById(Integer id);
+    public int removeById(TdFile tdFile);
 }
