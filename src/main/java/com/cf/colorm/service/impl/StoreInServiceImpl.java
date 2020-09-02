@@ -7,8 +7,10 @@ import com.cf.colorm.dao.TdFileDao;
 import com.cf.colorm.dao.TdFileStoreDao;
 import com.cf.colorm.entity.StoreInVO;
 import com.cf.colorm.entity.TdFile;
+import com.cf.colorm.entity.TdFileCheckIn;
 import com.cf.colorm.entity.TdFileStore;
 import com.cf.colorm.service.StoreInService;
+import com.cf.colorm.utils.JWTUtls;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +48,7 @@ public class StoreInServiceImpl implements StoreInService {
         try{
             //判断库存中否存在，存在无法添加
             if(tdFileStoreDao.findByColoeNo(storeInVO.getColorNo()) != null) {
-                return CommonsResult.getFialResult("库存中已经在数据");
+                return CommonsResult.getFialResult("库存中已经存在数据");
             }
 
             //判断该颜色是否报废
@@ -60,6 +62,7 @@ public class StoreInServiceImpl implements StoreInService {
 
             //入仓 添加入库记录信息
             storeInVO.setFileId(fileId);
+            storeInVO.setCreateUser(JWTUtls.getUserIdByRequest());
             if(tdFileCheckInDao.add(storeInVO) == 0){
                 dataSourceTransactionManager.rollback(transactionStatus);
                 return CommonsResult.getFialResult("入仓失败");
@@ -88,7 +91,6 @@ public class StoreInServiceImpl implements StoreInService {
         }
         return CommonsResult.getSuccessResult("查询成功",list);
     }
-
 
 
 }

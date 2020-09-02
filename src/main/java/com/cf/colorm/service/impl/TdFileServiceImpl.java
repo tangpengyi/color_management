@@ -7,13 +7,18 @@ import com.cf.colorm.dao.TdFileCheckOutDao;
 import com.cf.colorm.dao.TdFileDao;
 import com.cf.colorm.dao.TdFileStoreDao;
 import com.cf.colorm.entity.TdFile;
+import com.cf.colorm.entity.TdFileCheckOut;
 import com.cf.colorm.entity.TdFileStore;
 import com.cf.colorm.service.TdFileService;
 import com.cf.colorm.utils.JWTUtls;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +26,11 @@ import java.util.List;
 public class TdFileServiceImpl implements TdFileService {
 
     private static Log log = LogFactory.getLog(TdFileServiceImpl.class);
+
+    @Autowired
+    DataSourceTransactionManager dataSourceTransactionManager;
+    @Autowired
+    TransactionDefinition transactionDefinition;
 
     @Autowired
     private TdFileDao tdFileDao;
@@ -38,7 +48,7 @@ public class TdFileServiceImpl implements TdFileService {
     public ResponseResult add(TdFile tdFile) {
 
         tdFile.setCreateUser(JWTUtls.getUserIdByRequest());
-        tdFile.setEditUser(JWTUtls.getUserIdByRequest()+"");
+        tdFile.setEditUser(JWTUtls.getUserIdByRequest() + "");
         //判断颜色资料是否存在
         if (tdFileDao.findFileIdByColorNo(tdFile.getColorNo()) != null) {
             return CommonsResult.getFialResult("色卡资料已经存在");
@@ -124,31 +134,68 @@ public class TdFileServiceImpl implements TdFileService {
     }
 
     @Override
-    public ResponseResult removeById(Integer id) {
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseResult removeById(Integer id, String userName) {
 
+        TdFile tdFile = getTdFile(id,userName);
+
+        TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);
+        try {
+
+            //查询库存,判断是否存在库存
+            TdFileStore tdFileStore = tdFileStoreDao.findById(id);
+            if (tdFileStore != null) {
+                //有库存，获取出仓信息
+                TdFileCheckOut tdFileCheckOut = getTdFileCheckOut(tdFileStore,userName);
+
+                //添加出仓信息
+                int add = tdFileCheckOutDao.add(tdFileCheckOut);
+                if (add == 0) {
+                    dataSourceTransactionManager.rollback(transactionStatus);
+                    return CommonsResult.getFialResult("删除失败");
+                }
+            }
+
+            //删除库存,失败回滚
+            if(tdFileStoreDao.removeById(id) == 0){
+                dataSourceTransactionManager.rollback(transactionStatus);
+                return CommonsResult.getFialResult("删除失败!");
+            }
+
+            //删除资料信息
+            if (tdFileDao.removeById(tdFile) > 0) {
+                dataSourceTransactionManager.commit(transactionStatus);
+                return CommonsResult.getSuccessResult("删除成功!");
+            }
+        } catch (Exception e) {
+            dataSourceTransactionManager.rollback(transactionStatus);
+            return CommonsResult.getFialResult("删除失败!");
+        }
+        dataSourceTransactionManager.rollback(transactionStatus);
+        return CommonsResult.getFialResult("删除失败!");
+    }
+
+    public TdFileCheckOut getTdFileCheckOut(TdFileStore tdFileStore,String userName){
+        TdFileCheckOut tdFileCheckOut = new TdFileCheckOut();
+        tdFileCheckOut.setFileId(tdFileStore.getFileId());
+        tdFileCheckOut.setType(tdFileStore.getCheckInType());
+        tdFileCheckOut.setDescription(tdFileStore.getDescription());
+        tdFileCheckOut.setStoreId(tdFileStore.getStoreId());
+        tdFileCheckOut.setCheck_out_user(userName);
+        tdFileCheckOut.setCreateUser(JWTUtls.getUserIdByRequest());
+        tdFileCheckOut.setModifyUser(JWTUtls.getUserIdByRequest());
+        return tdFileCheckOut;
+    }
+
+    /**
+     * 获取需要删除资料的对象
+     * @return
+     */
+    public TdFile getTdFile(int id,String userName){
         TdFile tdFile = new TdFile();
         tdFile.setId(id);
         tdFile.setModifyUser(JWTUtls.getUserIdByRequest());
-
-        //查询库存
-        TdFileStore tdFileStore = tdFileStoreDao.findByFileId(id);
-        //不存在库存直接删除
-        if(tdFileStore == null){
-            if(tdFileDao.removeById(tdFile) > 0){
-                return CommonsResult.getSuccessResult("删除成功!");
-            }
-
-            return CommonsResult.getFialResult("删除失败!");
-        }
-
-
-        //有库存，删除库存（添加出仓信息，删除库存信息）
-        int add = tdFileCheckOutDao.add(null);
-
-
-        //再删除资料信息
-
-
-        return null;
+        tdFile.setEditUser(userName);
+        return tdFile;
     }
 }

@@ -34,4 +34,9 @@ public class StoreInVO {
 
     @ApiModelProperty(value = "入仓id",example="1")
     private Integer fileInId;
+
+    @ApiModelProperty(value = "创建人id",example="1")
+    private Integer createUser;
+
+
 }

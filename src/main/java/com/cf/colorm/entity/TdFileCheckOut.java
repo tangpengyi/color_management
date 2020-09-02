@@ -22,7 +22,7 @@ public class TdFileCheckOut {
     @ApiModelProperty(value = "仓库id",example="1")
     private Integer storeId;
 
-    @ApiModelProperty(value = "入仓人")
+    @ApiModelProperty(value = "出仓人")
     private String check_out_user;
 
     @ApiModelProperty(value = "创建人id",example="1")

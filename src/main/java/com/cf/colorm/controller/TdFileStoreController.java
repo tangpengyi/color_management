@@ -32,7 +32,6 @@ public class TdFileStoreController {
         return storeInServiceImpl.storeIn(storeInVO);
     }
 
-
     @ApiOperation(value = "查询所有库存")
     @GetMapping("/get")
     public ResponseResult getAll(){

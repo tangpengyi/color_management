@@ -62,9 +62,12 @@ public class TdFileController {
     }
 
     @ApiOperation(value="根据id删除颜色",notes = "根据id删除颜色")
-    @ApiImplicitParam(name = "id", value = "资料id",paramType = "query",required = true,dataType = "Integer")
-    @PostMapping("/removeById")
-    public ResponseResult removeById(Integer id){
-        return tdFileServiceImpl.removeById(id);
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "资料id",paramType = "query",required = true,dataType = "Integer"),
+            @ApiImplicitParam(name = "userName", value = "操作人名字",paramType = "query",required = true,dataType = "String")
+    })
+    @GetMapping("/removeById")
+    public ResponseResult removeById(Integer id,String userName){
+        return tdFileServiceImpl.removeById(id,userName);
     }
 }

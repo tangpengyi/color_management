@@ -15,5 +15,5 @@ public interface TdFileService {
 
     public ResponseResult modityTdFile(TdFile tdFile);
 
-    public ResponseResult removeById(Integer id);
+    public ResponseResult removeById(Integer id,String userName);
 }

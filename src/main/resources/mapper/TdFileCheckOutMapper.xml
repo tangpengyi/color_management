@@ -8,7 +8,7 @@
 
     <insert id="add" parameterType="com.cf.colorm.entity.TdFileCheckOut">
         insert into warehouse.td_file_check_out (file_id,type,description,store_id,check_out_user,create_user,create_date,modify_user,modify_date)
-        values (#{fileId},#{type},#{description},#{storeId},1,1,getdate(),1,getdate())
+        values (#{fileId},#{type},#{description},#{storeId},#{check_out_user},#{createUser},getdate(),#{modifyUser},getdate())
     </insert>
 
 </mapper>

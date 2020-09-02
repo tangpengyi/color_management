@@ -18,7 +18,8 @@
     </resultMap>
 
     <select id="findAll" resultMap="fileMap">
-        select top 100 id,color_no,color_name,type,description,status from warehouse.td_file with(nolock)
+        select top 100 id,color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date
+        from warehouse.td_file with(nolock)
     </select>
 
     <insert id="add" parameterType="com.cf.colorm.entity.TdFile">
@@ -44,7 +45,7 @@
 
     <update id="modityTdfile" parameterType="com.cf.colorm.entity.TdFile">
         UPDATE warehouse.td_file
-        SET color_no = #{colorNo},color_name=#{colorName},type=#{type},description=#{description},status=#{status},modify_user = #{modifyUser},modify_date = getdate()
+        SET color_no = #{colorNo},color_name=#{colorName},type=#{type},description=#{description},status=#{status},edit_user = #{editUser},modify_user = #{modifyUser},modify_date = getdate()
         WHERE id = #{id}
     </update>
 
@@ -54,7 +55,7 @@
     </select>
 
     <update id="removeById" parameterType="com.cf.colorm.entity.TdFile">
-        update warehouse.td_file set status = '报废',modify_user = #{modifyUser} where id = #{id}
+        update warehouse.td_file set status = '报废',modify_user = #{modifyUser},edit_user=#{editUser} where id = #{id}
     </update>
 
 </mapper>
