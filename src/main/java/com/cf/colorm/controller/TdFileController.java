@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("colorm/tdfile")
 public class TdFileController {
 
-    private static Log log = LogFactory.getLog(TdFileController.class);
-
     @Autowired
     private TdFileService tdFileServiceImpl;
 

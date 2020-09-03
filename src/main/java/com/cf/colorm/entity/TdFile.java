@@ -15,6 +15,7 @@ public class TdFile implements Serializable {
     @ApiModelProperty(value = "颜色号")
     private String colorNo;
 
+    @ApiModelProperty(value = "颜色名称")
     private String colorName;
 
     @ApiModelProperty(value = "资料类型")

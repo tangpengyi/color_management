@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -48,10 +49,10 @@ public class TdFileServiceImpl implements TdFileService {
     public ResponseResult add(TdFile tdFile) {
 
         tdFile.setCreateUser(JWTUtls.getUserIdByRequest());
-        tdFile.setEditUser(JWTUtls.getUserIdByRequest() + "");
+        tdFile.setModifyUser(JWTUtls.getUserIdByRequest());
         //判断颜色资料是否存在
-        if (tdFileDao.findFileIdByColorNo(tdFile.getColorNo()) != null) {
-            return CommonsResult.getFialResult("色卡资料已经存在");
+        if (tdFileDao.findAllColorNameByColorNo(tdFile.getColorNo()) != 0) {
+            return CommonsResult.getFialResult("色号已被占用");
         }
 
         int add = tdFileDao.add(tdFile);
@@ -109,6 +110,12 @@ public class TdFileServiceImpl implements TdFileService {
         //需要修改色号
         if (!color.getColorNo().equals(tdFile.getColorNo())) {
 
+            //判断修改色号是否被占用
+            TdFile isExists = tdFileDao.findColorByColorNo(tdFile.getColorNo());
+            if (isExists != null) {
+                return CommonsResult.getFialResult("该色号已被占用");
+            }
+
             //判断该颜色是否借出，借出无法修改，未借出可以修改色号
             Integer fileId = tdFileCheckInDao.getIdByFileId(tdFile.getId());
             //不存在借出记录
@@ -134,32 +141,34 @@ public class TdFileServiceImpl implements TdFileService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public ResponseResult removeById(Integer id, String userName) {
 
-        TdFile tdFile = getTdFile(id,userName);
+        if (StringUtils.isEmpty(id) || StringUtils.isEmpty(userName)) {
+            return CommonsResult.getFialResult("传入参数失败");
+        }
+
+        TdFile tdFile = getTdFile(id, userName);
+
+        //查询库存,判断是否存在库存 根据资料id
+        TdFileStore tdFileStore = tdFileStoreDao.findByFileId(id);
 
         TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);
         try {
-
-            //查询库存,判断是否存在库存
-            TdFileStore tdFileStore = tdFileStoreDao.findById(id);
             if (tdFileStore != null) {
                 //有库存，获取出仓信息
-                TdFileCheckOut tdFileCheckOut = getTdFileCheckOut(tdFileStore,userName);
-
+                TdFileCheckOut tdFileCheckOut = getTdFileCheckOut(tdFileStore, userName);
                 //添加出仓信息
                 int add = tdFileCheckOutDao.add(tdFileCheckOut);
                 if (add == 0) {
                     dataSourceTransactionManager.rollback(transactionStatus);
                     return CommonsResult.getFialResult("删除失败");
                 }
-            }
 
-            //删除库存,失败回滚
-            if(tdFileStoreDao.removeById(id) == 0){
-                dataSourceTransactionManager.rollback(transactionStatus);
-                return CommonsResult.getFialResult("删除失败!");
+                //删除库存,失败回滚
+                if (tdFileStoreDao.removeByFileId(id) == 0) {
+                    dataSourceTransactionManager.rollback(transactionStatus);
+                    return CommonsResult.getFialResult("删除失败!");
+                }
             }
 
             //删除资料信息
@@ -169,13 +178,13 @@ public class TdFileServiceImpl implements TdFileService {
             }
         } catch (Exception e) {
             dataSourceTransactionManager.rollback(transactionStatus);
-            return CommonsResult.getFialResult("删除失败!");
+            throw e;
         }
         dataSourceTransactionManager.rollback(transactionStatus);
         return CommonsResult.getFialResult("删除失败!");
     }
 
-    public TdFileCheckOut getTdFileCheckOut(TdFileStore tdFileStore,String userName){
+    public TdFileCheckOut getTdFileCheckOut(TdFileStore tdFileStore, String userName) {
         TdFileCheckOut tdFileCheckOut = new TdFileCheckOut();
         tdFileCheckOut.setFileId(tdFileStore.getFileId());
         tdFileCheckOut.setType(tdFileStore.getCheckInType());
@@ -189,9 +198,10 @@ public class TdFileServiceImpl implements TdFileService {
 
     /**
      * 获取需要删除资料的对象
+     *
      * @return
      */
-    public TdFile getTdFile(int id,String userName){
+    public TdFile getTdFile(int id, String userName) {
         TdFile tdFile = new TdFile();
         tdFile.setId(id);
         tdFile.setModifyUser(JWTUtls.getUserIdByRequest());

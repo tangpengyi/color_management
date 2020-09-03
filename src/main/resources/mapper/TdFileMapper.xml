@@ -19,7 +19,7 @@
 
     <select id="findAll" resultMap="fileMap">
         select top 100 id,color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date
-        from warehouse.td_file with(nolock)
+        from warehouse.td_file with(nolock) where status in ('正常','报废')
     </select>
 
     <insert id="add" parameterType="com.cf.colorm.entity.TdFile">
@@ -29,18 +29,21 @@
 
     <select id="findColorByColorNo" parameterType="java.lang.String" resultMap="fileMap">
         select  id,color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date
+        from warehouse.td_file with(nolock) where color_no = #{colorNo} and status in('正常','报废')
+    </select>
+
+    <select id="findAllColorNameByColorNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1)
         from warehouse.td_file with(nolock) where color_no = #{colorNo}
     </select>
 
-
     <select id="findFileIdByColorNo" parameterType="java.lang.String" resultType="java.lang.Integer">
-        select id from warehouse.td_file with(nolock) where color_no = #{colorNo}
+        select id from warehouse.td_file with(nolock) where color_no = #{colorNo} and status in('正常','报废')
     </select>
-
 
     <select id="findColorByColorName" parameterType="java.lang.String" resultMap="fileMap">
         select id,color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date
-        from warehouse.td_file with(nolock) where color_name = #{colorName}
+        from warehouse.td_file with(nolock) where color_name = #{colorName} and status in('正常','报废')
     </select>
 
     <update id="modityTdfile" parameterType="com.cf.colorm.entity.TdFile">
@@ -51,11 +54,11 @@
 
     <select id="findColorById" parameterType="java.lang.Integer" resultMap="fileMap">
         select id,color_no,color_name,type,description,store_id,status,edit_user,create_user,create_date,modify_user,modify_date
-        from warehouse.td_file with(nolock) where id = #{id}
+        from warehouse.td_file with(nolock) where id = #{id} and status in('正常','报废')
     </select>
 
     <update id="removeById" parameterType="com.cf.colorm.entity.TdFile">
-        update warehouse.td_file set status = '报废',modify_user = #{modifyUser},edit_user=#{editUser} where id = #{id}
+        update warehouse.td_file set status = '删除',modify_user = #{modifyUser},edit_user=#{editUser} where id = #{id}
     </update>
 
 </mapper>

@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper
 public interface TdFileStoreDao {
 
-    public Integer findByColoeNo(String colorNo);
+    public TdFileStore findByColoeNo(String colorNo);
 
     public int add(StoreInVO storeInVO);
 
@@ -23,8 +23,7 @@ public interface TdFileStoreDao {
 
     public TdFileStore findByFileId(Integer fileId);
 
-    public TdFileStore findById(Integer id);
-
     public int removeById(int Id);
 
+    public int removeByFileId(int fileId);
 }

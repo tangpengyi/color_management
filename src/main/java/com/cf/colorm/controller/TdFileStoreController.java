@@ -2,6 +2,8 @@ package com.cf.colorm.controller;
 
 import com.cf.colorm.api.ResponseResult;
 import com.cf.colorm.entity.StoreInVO;
+import com.cf.colorm.entity.StoreOutVO;
+import com.cf.colorm.service.FileStoreService;
 import com.cf.colorm.service.StoreInService;
 import com.cf.colorm.service.StoreOutService;
 import io.swagger.annotations.Api;
@@ -18,13 +20,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("colorm/storein")
 public class TdFileStoreController {
 
-    private static Log log = LogFactory.getLog(TdFileStoreController.class);
-
     @Autowired
     private StoreInService storeInServiceImpl;
 
     @Autowired
     private StoreOutService storeOutService;
+
+    @Autowired
+    private FileStoreService fileStoreServiceImpl;
 
     @ApiOperation(value = "入仓")
     @PostMapping("/add")
@@ -33,19 +36,22 @@ public class TdFileStoreController {
     }
 
     @ApiOperation(value = "查询所有库存")
-    @GetMapping("/get")
+    @GetMapping("/getAll")
     public ResponseResult getAll(){
         return storeInServiceImpl.getAll();
     }
 
+    @ApiOperation(value = "根据色号查询库存")
+    @ApiImplicitParam(name = "colorNo", value = "色号",paramType = "query",required = true,dataType = "String")
+    @GetMapping("getFileStoreByColorNo")
+    public ResponseResult getFileStoreByColorNo(String colorNo){
+        return fileStoreServiceImpl.getFileStoreByColorNo(colorNo);
+    }
+
     @ApiOperation(value = "出库")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "库存id",paramType = "query",required = true,dataType = "Integer"),
-            @ApiImplicitParam(name = "id", value = "用户姓名",paramType = "query",required = true,dataType = "String")
-    })
     @GetMapping("/storeOut")
-    public ResponseResult storeOut(Integer id,String userName){
-        return storeOutService.storeOut(id,userName);
+    public ResponseResult storeOut(@RequestBody StoreOutVO storeOutVO){
+        return storeOutService.storeOut(storeOutVO);
     }
 
 }

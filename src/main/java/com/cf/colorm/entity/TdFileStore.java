@@ -12,6 +12,10 @@ public class TdFileStore implements Serializable {
 
     private Integer id;
 
+    private String colorName;
+
+    private String colorNo;
+
     @ApiModelProperty(value = "色卡资料id",example="1")
     private Integer fileId;
 

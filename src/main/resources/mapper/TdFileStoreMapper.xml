@@ -5,6 +5,8 @@
     <resultMap id="tdFileStoreMap" type="com.cf.colorm.entity.TdFileStore">
         <id column="id" property="id" />
         <result column="file_id" property="fileId"/>
+        <result column="color_no" property="colorNo"/>
+        <result column="color_name" property="colorName"/>
         <result column="description" property="description"/>
         <result column="check_in_id" property="checkInId"/>
         <result column="check_in_type" property="checkInType"/>
@@ -17,22 +19,24 @@
         <result column="modify_date" property="modifyDate"/>
     </resultMap>
 
-    <select id="findByColoeNo" parameterType="java.lang.String" resultType="java.lang.Integer">
-        select s.id
-        from warehouse.td_file_store AS s with(nolock)
-        INNER JOIN warehouse.td_file AS f with(nolock) ON s.file_id = f.id
+
+    <select id="findByColoeNo" parameterType="java.lang.String" resultMap="tdFileStoreMap">
+        select s.*,f.color_no,f.color_name
+        from warehouse.td_file_store as s
+        inner join warehouse.td_file as f on s.file_id = f.id
         where f.color_no = #{colorNo}
     </select>
 
     <insert id="add" parameterType="com.cf.colorm.entity.StoreInVO">
         insert into warehouse.td_file_store(file_id,description,check_in_id,check_in_type,
                 check_in_user,address,store_id,create_user,create_date,modify_user,modify_date)
-        values(#{fileId},#{description},#{fileInId},#{type},#{check_in_user},#{address},#{storeId},1,getdate(),1,getdate())
+        values(#{fileId},#{description},#{fileInId},#{type},#{check_in_user},#{address},#{storeId},#{createUser},getdate(),#{createUser},getdate())
     </insert>
 
     <select id="findAll" resultMap="tdFileStoreMap">
-        select top 100 *
-        from warehouse.td_file_store with(nolock)
+        select top 100 s.*,f.color_name,f.color_no
+        from warehouse.td_file_store as s with(nolock)
+        inner join warehouse.td_file as f with(nolock) on f.id = s.file_id
         order by id
     </select>
 
@@ -40,11 +44,7 @@
         select * from warehouse.td_file_store with(nolock) where file_id = #{fileId}
     </select>
 
-    <select id="findById" parameterType="java.lang.Integer" resultMap="tdFileStoreMap">
-        select * from warehouse.td_file_store where id = #{id}
-    </select>
-
-    <delete id="removeById" parameterType="java.lang.Integer">
+    <delete id="removeByFileId" parameterType="java.lang.Integer">
         delete from warehouse.td_file_store where id = #{id}
     </delete>
 </mapper>

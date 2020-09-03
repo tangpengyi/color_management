@@ -13,6 +13,8 @@ import java.util.List;
 @Mapper
 public interface TdFileDao {
 
+    public Integer findAllColorNameByColorNo(String ColorNo);
+
     public int add(TdFile tdFile);
 
     public TdFile findColorByColorNo(String colorNo);
